@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import TodoList from "./TodoList";
 
 function App() {
   const [inputText, setInputText] = useState("");
@@ -16,6 +17,14 @@ function App() {
     setInputText("");
   }
 
+  function deleteItem(id) {
+    setitems((prevItems) => {
+      return prevItems.filter((items, index) => {
+        return index !== id;
+      });
+    });
+  }
+
   return (
     <div className="container">
       <div className="heading">
@@ -28,14 +37,19 @@ function App() {
           placeholder="Write Here!"
           value={inputText}
         />
-        <button type="submit">
+        <button type="submit" onClick={addItem}>
           <span>Add</span>
         </button>
       </div>
       <div>
         <ul>
-          {items.map((item) => (
-            <li>{item}</li>
+          {items.map((item, index) => (
+            <TodoList
+              key={index}
+              id={index}
+              onChecked={deleteItem}
+              text={item}
+            />
           ))}
         </ul>
       </div>
